@@ -17,14 +17,14 @@ import java.io.InputStream;
 public class FileUtil {
     private static final String TAG = "FileUtil";
 
-    public static void saveBitmap(Context mContext, String path, Bitmap bm) {
+    public static void saveBitmap(Context mContext, String filePath, Bitmap bm) {
 //        String path = mContext.getFilesDir() + "/images/";
-        Log.d(TAG, "Save Path=" + path);
+        Log.d(TAG, "Save Path=" + filePath);
 
-        if (!fileIsExist(path)) {
+        if (!fileIsExist(new File(filePath).getParent())) {
             Log.d(TAG, "TargetPath isn't exist");
         } else {
-            File saveFile = new File(path);
+            File saveFile = new File(filePath);
 
             try {
                 FileOutputStream saveImgOut = new FileOutputStream(saveFile);

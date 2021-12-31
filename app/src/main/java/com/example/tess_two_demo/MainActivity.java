@@ -24,9 +24,7 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    private static final String LANGUAGE_TRAIN_FILE = "traindata/chi_sim_vert.traineddata";
     private static final String LANGUAGE_FILE_NAME = "chi_sim";
-    private static final String LANGUAGE_FILE_PATH = "/tessdata/" + LANGUAGE_TRAIN_FILE;
 
     private ProgressBar mProgressbar;
     private TessBaseAPI tessBaseAPI;
@@ -53,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.CAMERA
             }, 1);
 
         }
@@ -87,13 +84,15 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "语音模型初始化完成", Toast.LENGTH_SHORT).show();
     }
 
+    private static final String SCREENSHOT_IMG = "/sdcard/sreenshot.png";
+
     public void OnRecognize(View view) {
         mProgressbar.setVisibility(View.VISIBLE);
         recogResultTv.setText("");
 
         new Thread(() -> {
             long startTime = System.currentTimeMillis();
-            tessBaseAPI.setImage(new File("/sdcard/1.png"));
+            tessBaseAPI.setImage(new File(SCREENSHOT_IMG));
             String text = tessBaseAPI.getUTF8Text();
             Log.i(TAG, "result: " + text);
 
@@ -110,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().getDecorView().setDrawingCacheEnabled(true);
         Bitmap bmp = getWindow().getDecorView().getDrawingCache();
         imageView.setImageBitmap(bmp);
-        FileUtil.saveBitmap(this, "/sdcard/sreenshot1.png", bmp);
+
+        FileUtil.saveBitmap(this, SCREENSHOT_IMG, bmp);
     }
 }
