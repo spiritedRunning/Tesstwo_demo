@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             long startTime = System.currentTimeMillis();
             tessBaseAPI.setImage(new File(SCREENSHOT_IMG));
             String text = tessBaseAPI.getUTF8Text();
-            Log.i(TAG, "result: " + text);
+            Log.i(TAG, "result: " + text.replace(" ", ""));
 
             Log.e(TAG, "recognize complete, using " + (System.currentTimeMillis() - startTime) / 1000 + "s");
             runOnUiThread(() -> {
@@ -111,5 +111,14 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageBitmap(bmp);
 
         FileUtil.saveBitmap(this, SCREENSHOT_IMG, bmp);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (tessBaseAPI != null) {
+            tessBaseAPI.recycle();
+        }
     }
 }
